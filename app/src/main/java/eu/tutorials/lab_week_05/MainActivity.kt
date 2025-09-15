@@ -15,6 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.converter.moshi.MoshiConverterFactory
+import android.widget.ImageView
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +34,14 @@ class MainActivity : AppCompatActivity() {
     private val apiResponseView: TextView by lazy{
         findViewById(R.id.api_response)
     }
+
+    private val imageResultView: ImageView by lazy {
+        findViewById(R.id.image_result)
+    }
+    private val imageLoader: ImageLoader by lazy {
+        GlideLoader(this)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +68,11 @@ class MainActivity : AppCompatActivity() {
                         R.string.image_placeholder,
                         firstImage
                     )
+                    if (firstImage.isNotBlank()) {
+                        imageLoader.loadImage(firstImage, imageResultView)
+                    } else {
+                        Log.d(MAIN_ACTIVITY, "Missing image URL")
+                    }
                 } else {
                     Log.e(
                         MAIN_ACTIVITY, "Failed to get response\n" +
