@@ -64,10 +64,18 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val image = response.body()
                     val firstImage = image?.firstOrNull()?.imageUrl ?: "No URL"
-                    apiResponseView.text = getString(
-                        R.string.image_placeholder,
-                        firstImage
-                    )
+                    Log.d(MAIN_ACTIVITY, response.body().toString())
+                    if(image?.firstOrNull()?.breeds.toString() == "null"){
+                        apiResponseView.text = getString(
+                            R.string.image_placeholder,
+                            "unknown"
+                        )
+                    }else{
+                        apiResponseView.text = getString(
+                            R.string.image_placeholder,
+                            image?.firstOrNull()?.breeds
+                        )
+                    }
                     if (firstImage.isNotBlank()) {
                         imageLoader.loadImage(firstImage, imageResultView)
                     } else {
